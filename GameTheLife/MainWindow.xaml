@@ -1,0 +1,126 @@
+﻿<Window x:Class="GameTheLife.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GameTheLife"
+        xmlns:vpvm="crl-namespace:GameTheLife.ViewModel"
+        xmlns:viewmodel="clr-namespace:GameTheLife.ViewModel"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="900"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        MouseRightButtonDown="Window_MouseRightButtonDown"
+        MouseMove="Window_MouseMove"
+        MouseUp="Window_MouseUp">
+    <Window.Resources>
+
+    </Window.Resources>
+    <Window.DataContext>
+        <viewmodel:CommonViewModel/>
+    </Window.DataContext>
+    <Grid x:Name="commonGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <ItemsControl ItemsSource="{Binding  FieldVM.Field.Cells}" DisplayMemberPath="">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="{Binding FieldVM.Field.Options.Height}"
+                                 Columns="{Binding FieldVM.Field.Options.Width}"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate >
+                    <StackPanel Margin="0.3" Background="{Binding Path=Background}"  x:Name="buttonTemp" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Grid Grid.Row="1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+
+            </Grid.ColumnDefinitions>
+            <Button Margin="5" Content="Старт" Click="Window_Button_Click" x:Name="StartButton"/>
+            <Button Margin="5" Grid.Column="1" Content="Стоп" Click="Window_Button_Click" x:Name="StopButton"/>
+            <Button Margin="5" Grid.Column="2" Content="Сбросить" Click="Window_Button_Click" x:Name="NewGame"/>
+        </Grid>
+        <Grid Grid.Column="1" x:Name="OptionsGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="8*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Margin="5 0 0 0" VerticalAlignment="Center">Ширина поля:</TextBlock>
+            <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Grid.Row="1">Высота поля:</TextBlock>
+            <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Grid.Row="2">Диапазон выживания:</TextBlock>
+            <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Grid.Row="3">Диапазон зарождения жизни:</TextBlock>
+            <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Grid.Row="4">Количество соседей:</TextBlock>
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox VerticalAlignment="Center" Margin="5 0 0 0" Text="{Binding  OptionsVM.Height}"></TextBox>
+            </Grid>
+            <Grid Grid.Column="1" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox VerticalAlignment="Center" Margin="5 0 0 0" Text="{Binding OptionsVM.Width}"></TextBox>
+            </Grid>
+            <Grid Grid.Column="1" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox VerticalAlignment="Center" Margin="5 0 0 0" Text="{Binding OptionsVM.MinSurvive}"></TextBox>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1">-</TextBlock>
+                <TextBox VerticalAlignment="Center" Grid.Column="2" Margin="0 0 5 0" Text="{Binding OptionsVM.MaxSurvive}"></TextBox>
+            </Grid>
+            <Grid Grid.Column="1" Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox VerticalAlignment="Center" Margin="5 0 0 0" Text="{Binding OptionsVM.MinBirthday}"></TextBox>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1">-</TextBlock>
+                <TextBox VerticalAlignment="Center" SelectedText="CB8" Grid.Column="2" Margin="0 0 5 0" Text="{Binding OptionsVM.MaxBirthday}"></TextBox>
+            </Grid>
+            <Grid Grid.Row="4" Grid.Column="1">
+                <ComboBox Margin="5 0 5 0"  VerticalAlignment="Center">
+                    <ComboBoxItem Selected="ComboBoxItem_Selected" x:Name="CB4">4</ComboBoxItem>
+                    <ComboBoxItem Selector.IsSelected="True" Selected="ComboBoxItem_Selected" x:Name="CB8">8</ComboBoxItem>
+                </ComboBox>
+            </Grid>
+            <Grid Grid.Row="5" Grid.ColumnSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <ScrollBar Orientation="Horizontal" VerticalAlignment="Top" Minimum="10" Maximum="1000"  Value="{Binding OptionsVM.TimerValue}"/>
+                <TextBlock Text="Значение скорости в мс (Самая быстрая)10-(Самая медленная)1000. Текущая скорость:" TextWrapping="Wrap" Grid.Row="1"></TextBlock>
+                <TextBlock Text="{Binding OptionsVM.TimerValue}" TextWrapping="Wrap" Grid.Row="2"></TextBlock>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
